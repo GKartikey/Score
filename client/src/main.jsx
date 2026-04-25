@@ -8,3 +8,4 @@ createRoot(document.getElementById("root")).render(
     <App />
   </React.StrictMode>
 );
+// This file is the entry point for the React application. It imports necessary modules and renders the App component into the root DOM element.
