@@ -35,7 +35,7 @@ Docker API: `http://localhost:5000/api/health`
 
 ## Jenkins CI/CD
 
-This repo includes a Docker-based `Jenkinsfile`. Configure a Jenkins Pipeline job from SCM and point it at this repo. The pipeline runs on GitHub push webhooks, builds the React app, builds Docker images, starts the Compose stack, smoke-tests the API/frontend, and tears the CI stack down.
+This repo includes a Docker-based `Jenkinsfile`. Configure a Jenkins Pipeline job named `score system` from SCM and point it at this repo. The pipeline runs on GitHub push webhooks, builds the React app, builds Docker images, starts the Compose stack, smoke-tests the API/frontend, and tears the CI stack down.
 
 Full setup notes: `docs/jenkins-github-webhook.md`
 

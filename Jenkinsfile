@@ -12,10 +12,20 @@ pipeline {
   }
 
   environment {
-    COMPOSE_PROJECT_NAME = 'credit-risk-scoring-ci'
+    COMPOSE_PROJECT_NAME = 'score'
+    PIPELINE_DISPLAY_NAME = 'score system'
   }
 
   stages {
+    stage('Initialize') {
+      steps {
+        script {
+          currentBuild.displayName = "${env.PIPELINE_DISPLAY_NAME} #${env.BUILD_NUMBER}"
+          currentBuild.description = 'Dockerized MERN credit risk scoring system'
+        }
+      }
+    }
+
     stage('Checkout') {
       steps {
         checkout scm

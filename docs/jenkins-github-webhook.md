@@ -17,14 +17,15 @@ GitHub sends the push event to Jenkins, Jenkins checks out the repo, builds the 
 1. Open Jenkins: `http://localhost:9090`.
 2. Create a new item.
 3. Select `Pipeline` or `Multibranch Pipeline`.
-4. For a simple Pipeline job:
+4. Name the Jenkins job `score system`.
+5. For a simple Pipeline job:
    - Definition: `Pipeline script from SCM`
    - SCM: `Git`
    - Repository URL: `https://github.com/GKartikey/Score.git`
    - Branch: `*/main`
    - Script Path: `Jenkinsfile`
-5. Enable `GitHub hook trigger for GITScm polling`.
-6. Save.
+6. Enable `GitHub hook trigger for GITScm polling`.
+7. Save.
 
 ## ngrok for App + Jenkins Webhook
 
