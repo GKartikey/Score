@@ -14,6 +14,15 @@ GitHub sends the push event to Jenkins, Jenkins checks out the repo, builds the 
 
 ## Jenkins Job
 
+If Jenkins runs inside Docker, use the project Jenkins image so the pipeline can run Node/npm and Docker Compose:
+
+```bash
+docker build -t score-jenkins ./jenkins
+docker stop jenkins
+docker rm jenkins
+docker run -d --name jenkins --restart unless-stopped -u root -p 9090:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock score-jenkins
+```
+
 1. Open Jenkins: `http://localhost:9090`.
 2. Create a new item.
 3. Select `Pipeline` or `Multibranch Pipeline`.
