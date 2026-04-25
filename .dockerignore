@@ -1,0 +1,13 @@
+.git
+node_modules
+server/node_modules
+client/node_modules
+client/dist
+*.log
+.env
+server/.env
+loan.csv
+credit_risk_model.pkl
+LCDataDictionary.xlsx
+*.pkl
+*.xlsx
