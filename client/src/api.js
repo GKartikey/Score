@@ -9,6 +9,8 @@ export async function scoreApplication(application) {
     body: JSON.stringify(application)
   });
 
+//added error handling for non-200 responses
+
   if (!response.ok) {
     throw new Error("Unable to score this application");
   }
