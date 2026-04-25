@@ -3,7 +3,7 @@ name: score
 services:
   mongo:
     image: mongo:7
-    container_name: credit-risk-mongo
+    container_name: score-mongo
     restart: unless-stopped
     ports:
       - "27017:27017"
@@ -18,7 +18,7 @@ services:
   server:
     build:
       context: ./server
-    container_name: credit-risk-server
+    container_name: score-server
     restart: unless-stopped
     environment:
       PORT: 5000
@@ -44,7 +44,7 @@ services:
       context: ./client
       args:
         VITE_API_URL: /api
-    container_name: credit-risk-client
+    container_name: score-client
     restart: unless-stopped
     ports:
       - "8081:80"

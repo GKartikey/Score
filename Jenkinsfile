@@ -35,7 +35,8 @@ pipeline {
     stage('Install and Build App') {
       steps {
         script {
-          runCommand('npm.cmd install', 'npm install')
+          runCommand('npm.cmd ci', 'npm ci')
+          runCommand('npm.cmd ci --prefix client', 'npm ci --prefix client')
           runCommand('npm.cmd run build --prefix client', 'npm run build --prefix client')
         }
       }
@@ -61,7 +62,7 @@ pipeline {
   }
 
   post {
-    always {
+    failure {
       script {
         dockerCompose('down -v --remove-orphans')
       }
