@@ -12,8 +12,11 @@ pipeline {
   }
 
   environment {
-    COMPOSE_PROJECT_NAME = 'score'
+    COMPOSE_PROJECT_NAME = 'score-ci'
     PIPELINE_DISPLAY_NAME = 'score system'
+    CLIENT_PORT = '18081'
+    SERVER_PORT = '15000'
+    MONGO_PORT = '27018'
   }
 
   stages {
@@ -49,6 +52,16 @@ pipeline {
         }
       }
     }
+
+    stage('Docker Smoke Test') {
+      steps {
+        script {
+          dockerCompose('up -d')
+          waitForUrl("http://localhost:${env.SERVER_PORT}/api/health", 60)
+          waitForUrl("http://localhost:${env.CLIENT_PORT}", 60)
+        }
+      }
+    }
   }
 
   post {
@@ -70,4 +83,18 @@ def runCommand(String windowsCommand, String unixCommand) {
 
 def dockerCompose(String args) {
   runCommand("docker compose ${args}", "docker compose ${args}")
+}
+
+def waitForUrl(String url, int timeoutSeconds) {
+  timeout(time: timeoutSeconds, unit: 'SECONDS') {
+    waitUntil {
+      def command = isUnix()
+        ? "curl -fsS ${url} >/dev/null"
+        : "powershell -NoProfile -ExecutionPolicy Bypass -Command \"try { Invoke-WebRequest -UseBasicParsing '${url}' | Out-Null; exit 0 } catch { exit 1 }\""
+      def status = isUnix()
+        ? sh(script: command, returnStatus: true)
+        : bat(script: command, returnStatus: true)
+      return status == 0
+    }
+  }
 }
