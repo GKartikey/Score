@@ -105,9 +105,19 @@ export function scoreApplication(rawApplication) {
   addFactor(factors, "Revolving utilization", utilizationImpact, `${application.revol_util}% utilization`);
 
   const incomePerLoan = application.annual_inc / Math.max(application.loan_amnt, 1);
-  const affordabilityImpact = clamp((2.8 - incomePerLoan) / 6, -0.24, 0.28);
-  logit += affordabilityImpact * 1.7;
+  const affordabilityImpact = clamp((2.8 - incomePerLoan) / 2.4, -0.35, 1.15);
+  logit += affordabilityImpact * 2.2;
   addFactor(factors, "Income coverage", affordabilityImpact, `${incomePerLoan.toFixed(1)}x annual income to requested loan`);
+
+  const paymentBurden = (application.installment * 12) / Math.max(application.annual_inc, 1);
+  const paymentBurdenImpact = clamp((paymentBurden - 0.18) * 1.7, -0.18, 0.8);
+  logit += paymentBurdenImpact * 1.7;
+  addFactor(
+    factors,
+    "Installment burden",
+    paymentBurdenImpact,
+    `${Math.round(paymentBurden * 100)}% of annual income used by scheduled payments`
+  );
 
   const interestImpact = clamp((application.int_rate - 12) / 40, -0.18, 0.3);
   logit += interestImpact * 1.6;

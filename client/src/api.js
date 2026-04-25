@@ -1,7 +1,7 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:5000/api").replace(/\/$/, "");
 
 export async function scoreApplication(application) {
-  const response = await fetch(`${API_URL}/api/score`, {
+  const response = await fetch(`${API_BASE}/score`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -17,7 +17,7 @@ export async function scoreApplication(application) {
 }
 
 export async function fetchAudits() {
-  const response = await fetch(`${API_URL}/api/audits`);
+  const response = await fetch(`${API_BASE}/audits`);
 
   if (!response.ok) {
     throw new Error("Unable to load audit history");
